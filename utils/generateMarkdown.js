@@ -1,25 +1,34 @@
-const apiCall = require("./utils/api.js");
+const apiCall = require("./api.js");
+
 
 function generateMarkdown(data) {
   return `
 # ${data.projectName}
 
-# ${data.description}
+# Description
 
-# ${data.projectName}
+${data.description}
 
 # Table of Contents
 
-  1. [Installation](#Installation)
-  1. [Usage](#Usage)
-  1. [License](#License)
-  1. [Contributing](#Contributing)
-  1. [Tests](#Tests)
-  1. [Questions](#Questions)
+  * [Installation](#Installation)
+
+  * [Usage](#Usage)
+
+  * [License](#License)
+
+  * [Contributing](#Contributing)
+
+  * [Tests](#Tests)
+  
+  * [Questions](#Questions)
 
 # Installation
   To install necessary dependencies, run the following command:
+  
   ${data.dependencies}
+  
+
 # Usage
   ${data.usingRepo}
 
@@ -30,10 +39,16 @@ function generateMarkdown(data) {
   ${data.contributingRepo}
 
 # Tests
-  To run tests, run the following command:  
+  To run tests, run the following command:
+  
   ${data.test}
+  
 
 # Questions
+  ${console.log(apiCall.getUser(data.username))}
+  ${apiCall.getUser(data.username)}
+
+  If you have any questions about the repo, open an issue or contact [${data.username}](https://api.github.com/users/${data.username})
 
 `;
 }
