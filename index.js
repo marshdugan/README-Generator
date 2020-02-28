@@ -25,7 +25,7 @@ const questions = [
         message: "What kind of license should your project have?",
         default: "Use arrow keys",
         name: "license",
-        choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"]
+        choices: ["MIT", "APACHE-2.0", "GPL-3.0", "BSD-3-Clause", "None"]
     },
     {
         type: "input",
@@ -57,14 +57,16 @@ inquirer.prompt(questions).then(function(response) {
 
 function writeToFile(fileName, data) {
     apiCall.getUser(data.username).then(function(gitHubData) {
-        let readmeData = generate(data, gitHubData.data);
-        fs.writeFile(fileName, readmeData, error => error ? console.log(error) : console.log("Alt README created"));
+        console.log(gitHubData.data);
+        apiCall.getLicenses().then(function(objLicense) {
+            for (let i = 0; i < objLicense.data.length; i++) {
+                if (objLicense.data[i].spdx_id === data.license) {
+                    let readmeData = generate(data, gitHubData.data, objLicense.data[i]);
+                    fs.writeFile(fileName, readmeData, error => error ? console.log(error) : console.log("Alt README created"));
+                    break;
+                }
+            }
+        })
     });
     
 }
-
-// function init() {
-
-// }
-
-// init();
