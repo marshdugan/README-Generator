@@ -2,7 +2,6 @@ function generateMarkdown(data, gitHubData, gitHubLicense) {
   return `# ${data.projectName}
   [![GitHub license](https://img.shields.io/badge/license-${gitHubLicense.spdx_id}-blue)](${gitHubData.html_url})
 
-
 # Description
 
 ${data.description}

@@ -52,17 +52,24 @@ const questions = [
 ];
 
 inquirer.prompt(questions).then(function(response) {
+    //Call function with filename and data from prompt
     writeToFile("Profile.md", response);
 });
 
 function writeToFile(fileName, data) {
+    //First api call to get data from github
     apiCall.getUser(data.username).then(function(gitHubData) {
-        console.log(gitHubData.data);
+        //Second api call to get the list of licenses
         apiCall.getLicenses().then(function(objLicense) {
+            //Searches through licenses
             for (let i = 0; i < objLicense.data.length; i++) {
+                //When license === input license
                 if (objLicense.data[i].spdx_id === data.license) {
+                    //Call the generate function to return the formatted code
                     let readmeData = generate(data, gitHubData.data, objLicense.data[i]);
+                    //Write the readme data to a file
                     fs.writeFile(fileName, readmeData, error => error ? console.log(error) : console.log("Alt README created"));
+                    //We are still in the for loop so break
                     break;
                 }
             }
