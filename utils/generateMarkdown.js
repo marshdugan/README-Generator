@@ -1,7 +1,4 @@
-const apiCall = require("./api.js");
-
-
-function generateMarkdown(data) {
+function generateMarkdown(data, gitHubData) {
   return `
 # ${data.projectName}
 
@@ -45,8 +42,7 @@ ${data.description}
   
 
 # Questions
-  ${console.log(apiCall.getUser(data.username))}
-  ${apiCall.getUser(data.username)}
+  ${gitHubData.avatar_url}
 
   If you have any questions about the repo, open an issue or contact [${data.username}](https://api.github.com/users/${data.username})
 

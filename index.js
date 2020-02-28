@@ -1,5 +1,6 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
+const apiCall = require("./utils/api.js");
 const generate = require("./utils/generateMarkdown.js");
 
 
@@ -51,12 +52,14 @@ const questions = [
 ];
 
 inquirer.prompt(questions).then(function(response) {
-    writeToFile("Profile.txt", response);
+    writeToFile("Profile.md", response);
 });
 
 function writeToFile(fileName, data) {
-    let readmeData = generate(data);
-    fs.writeFile("Profile.md", readmeData, error => error ? console.log(error) : console.log("Alt README created"));
+    apiCall.getUser(data.username).then(function(gitHubData) {
+        let readmeData = generate(data, gitHubData.data);
+        fs.writeFile(fileName, readmeData, error => error ? console.log(error) : console.log("Alt README created"));
+    });
     
 }
 
